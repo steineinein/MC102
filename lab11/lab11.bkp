@@ -1,0 +1,45 @@
+#include <stdio.h>
+
+int check42 (int n);
+int mult_last2digits (int n);
+
+int main(){
+	int n, a;
+	scanf ("%d", &n);
+	a = check42(n);
+	if (a)
+		printf("Sim:%d\n",a);
+	else
+		printf("Nao\n");
+	return 0;
+}
+
+/* função para checar se é possivel ter exatamente 42 gremlins
+ * retorna 0 se não e um inteiro >= 1 se sim */
+int check42 (int n){
+	int a;
+	a = 0;
+	if (n >= 42){
+		if (n == 42){
+			return 1;
+		}
+		if (n % 2 == 0){
+			a = a + check42 (n/2);
+		}
+		if (n % 3 == 0 || n % 4 == 0){
+			if (mult_last2digits(n) != 0)
+				a = a + check42 (n - mult_last2digits (n));
+		}
+		if (n % 5 == 0){
+			a = a + check42 (n - 42);
+		}
+	}
+	return a;
+}
+
+int mult_last2digits (int n){
+	int a, b;
+	a = n % 10;
+	b = (n / 10) % 10;
+	return a*b;
+}
